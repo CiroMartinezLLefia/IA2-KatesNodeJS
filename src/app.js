@@ -51,4 +51,9 @@ app.get('/health', (req, res) => {
   res.status(200).json({ estat: 'ok' });
 });
 
+// GET / - Redirect to /api
+app.get('/', (req, res) => {
+  res.redirect('/api');
+});
+
 export default app;
