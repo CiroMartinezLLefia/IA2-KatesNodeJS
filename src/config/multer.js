@@ -9,9 +9,13 @@ const __dirname = path.dirname(__filename);
 // Resolve the uploads directory relative to project root
 const uploadDir = path.resolve(path.dirname(__dirname), '../uploads');
 
-// Create the directory if it does not exist
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// Create the directory if it does not exist (wrapped in try-catch to prevent crash in read-only environments like Vercel)
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (error) {
+  console.warn('Advertència: No s\'ha pogut crear el directori uploads (normal en entorns read-only com Vercel):', error.message);
 }
 
 const storage = multer.diskStorage({
